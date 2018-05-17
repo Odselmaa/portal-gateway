@@ -6,7 +6,7 @@ module.exports = {
             uri: USER_API_ROOT + req.url,
             json: req.body,
             method: req.method,
-            headers: req.headers,
+            // headers: req.headers,
             // rejectUnauthorized: false
         };
         h.send_request(options, function (error, response, body, req) {
