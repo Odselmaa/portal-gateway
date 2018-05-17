@@ -5,7 +5,10 @@ function check_auth(token, res,  next){
     var options = {
         uri: `${AUTH_API_ROOT}/api/check_authorization/${token}`,
         method: 'GET',
-        json: {}
+        json: {},
+        headers: {
+            "Authorization": "Bearer "+token
+        }
     };
     h.send_request(options, function (error, response, body, req) {
         if(response.statusCode==200)
