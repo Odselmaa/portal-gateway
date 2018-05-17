@@ -1,10 +1,10 @@
 var h = require('./helper.js')
 
-AUTH_API_ROOT = 'http://127.0.0.1:5001/api'
+AUTH_API_ROOT = 'https://portal-user.herokuapp.com/api'
 
 function check_auth(token, res,  next){
     var options = {
-        uri: `http://127.0.0.1:5001/api/check_authorization/${token}`,
+        uri: `${AUTH_API_ROOT}/check_authorization/${token}`,
         method: 'GET',
         json: {}
     };
