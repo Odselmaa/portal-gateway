@@ -78,6 +78,8 @@ module.exports = {
     },
 
     auth_api: function (req, res) {
+        console.log(req.body)
+
         var options = {
             uri: AUTH_API_ROOT + req.url,
             json: req.body,
