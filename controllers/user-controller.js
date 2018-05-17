@@ -10,7 +10,7 @@ module.exports = {
             // rejectUnauthorized: false
         };
         h.send_request(options, function (error, response, body, req) {
-            console.log(error)
+            console.log(body)
             res.json(body)
         })
     },

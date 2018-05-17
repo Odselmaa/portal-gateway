@@ -18,9 +18,9 @@ function get_users(req, users, next) {
     var options = {
         json: { },
         method: 'GET',
-        headers: {
-            "Authorization": req.headers.authorization
-        }
+        // headers: {
+        //     "Authorization": req.headers.authorization
+        // }
     };
     for (var i = 0; i < users.length; i++) {
         options.uri = `${USER_API_ROOT}/api/user/${users[i]}?fields=${fields}`
@@ -71,7 +71,7 @@ module.exports = {
             uri: REVIEW_API_ROOT + req.url,
             json: req.body,
             method: req.method,
-            headers: req.headers
+            // headers: req.headers
         };
         h.send_request(options, function (error, response, body, req) {
             res.json(body)

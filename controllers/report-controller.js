@@ -5,9 +5,8 @@ module.exports = {
     var options = {
         uri: REPORT_API_ROOT  + req.url,
         json: req.body,
-        method:  req.method,
-        headers: req.headers
-    };
+        method:  req.method
+        };
     h.send_request(options, function (error, response, body, req) {
         res.json(body)
     })  
