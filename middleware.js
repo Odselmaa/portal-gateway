@@ -2,22 +2,23 @@ var h = require('./helper.js')
 
 
 function check_auth(token, res,  next){
-    var options = {
-        uri: `${AUTH_API_ROOT}/api/check_authorization/${token}`,
-        method: 'GET',
-        json: {},
-        headers: {
-            "Authorization": "Bearer "+token
-        }
-    };
-    h.send_request(options, function (error, response, body, req) {
-        if(response.statusCode==200)
-            next()
-        else{
-            // b = JSON.parse(body)
-            res.json(body)
-        }
-    })
+    // var options = {
+    //     uri: `${AUTH_API_ROOT}/api/check_authorization/${token}`,
+    //     method: 'GET',
+    //     json: {},
+    //     headers: {
+    //         "Authorization": "Bearer "+token
+    //     }
+    // };
+    // h.send_request(options, function (error, response, body, req) {
+    //     if(response.statusCode==200)
+    //         next()
+    //     else{
+    //         // b = JSON.parse(body)
+    //         res.json(body)
+    //     }
+    // })
+    next()
 }
 
 module.exports = {
