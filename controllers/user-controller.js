@@ -81,10 +81,12 @@ module.exports = {
         var options = {
             uri: AUTH_API_ROOT + req.url,
             json: req.body,
-            method: req.method,
+            method: req.method
             // headers: req.headers
         };
         h.send_request(options, function (error, response, body, req) {
+            console.log(body)
+
             res.json(body)
         })
     }
