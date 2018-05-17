@@ -38,7 +38,7 @@ app.post('/api/auth', u.auth_api)
 
 app.get('/api/user', u.user_api)
 app.post('/api/user', [m.authMiddleware], u.user_api)
-app.get('/api/user/:user_id', [m.authMiddleware], u.user_api)
+app.get('/api/user/:user_id',u.user_api)
 app.put('/api/user/:user_id', [m.authMiddleware], u.user_api)
 app.get('/api/user/:user_id/friend', [m.authMiddleware], u.user_api)
 app.post('/api/user/:user_id/friend/:friend_id', [m.authMiddleware], u.user_api)
