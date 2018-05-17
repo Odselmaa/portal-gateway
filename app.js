@@ -1,4 +1,5 @@
 var cluster = require('cluster');
+const PORT = process.env.PORT || 5000
 
 // if (cluster.isMaster) {
 //     var cpuCount = require('os').cpus().length;
@@ -104,7 +105,7 @@ app.post('/api/review/chair', [m.authMiddleware], rv.dep_review_api)
 // if (!module.parent) {
 //     // app.listen(3000);
 
-    var server = http.listen(3001, () => {
+    var server = http.listen(PORT, () => {
         console.log("server is listening on port", server.address().port)
     })
 // }
