@@ -88,7 +88,7 @@ module.exports = {
             }
         };
         h.send_request(options, function (error, response, body, request) {
-            if (body.statusCode == 200) {
+            if (!error & response.statusCode == 200) {
                 users = []
                 reviews = body.response.reviews
                 for (var i = 0; i < reviews.length; i++) {
