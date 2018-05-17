@@ -74,7 +74,7 @@ module.exports = {
             headers: req.headers
         };
         h.send_request(options, function (error, response, body, req) {
-            res.status(body.statusCode).json(body)
+            res.json(body)
         })
     },
 
@@ -97,11 +97,11 @@ module.exports = {
 
                 get_users(req, users, (authors) => {
                     body.response.authors = authors
-                    res.status(body.statusCode).json(body)
+                    res.json(body)
                 })
                 // 
             } else
-                res.status(body.statusCode).json(body)
+                res.json(body)
         })
     },
 
@@ -127,10 +127,10 @@ module.exports = {
                     report = body.response
                     body.response = {report: report}
                     body.response.departments = departments
-                    res.status(body.statusCode).json(body)
+                    res.json(body)
                 })
             } else
-                res.status(body.statusCode).json(body)
+                res.json(body)
         })
     }
 }

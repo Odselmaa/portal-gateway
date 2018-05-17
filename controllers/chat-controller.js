@@ -9,7 +9,7 @@ module.exports = {
             headers: req.headers
         };
         h.send_request(options, function (error, response, body, req) {
-            res.status(body.statusCode).json(body)
+            res.json(body)
         })
     },
 
@@ -75,7 +75,7 @@ module.exports = {
             })
         }).then(function (body) {
 
-            res.status(body.statusCode).json(body)
+            res.json(body)
         })
     }
 }

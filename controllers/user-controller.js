@@ -67,7 +67,7 @@ module.exports = {
             .then(get_chairs)
             .then((body) => {
                 
-                res.status(body.statusCode).json(body)
+                res.json(body)
             }).catch(() => {
                 res.json({
                     response: "Not okay",
@@ -85,7 +85,7 @@ module.exports = {
             headers: req.headers
         };
         h.send_request(options, function (error, response, body, req) {
-            res.status(body.statusCode).json(body)
+            res.json(body)
         })
     }
 }
