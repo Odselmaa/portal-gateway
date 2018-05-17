@@ -1,0 +1,36 @@
+{
+  "name": "api-gateway",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --reporter spec",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Odselmaa/API-Gateway.git"
+  },
+  "keywords": [
+    "Gateway",
+    "API"
+  ],
+  "author": "Odselmaa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Odselmaa/API-Gateway/issues"
+  },
+  "homepage": "https://github.com/Odselmaa/API-Gateway#readme",
+  "dependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^4.0.0",
+    "express": "^4.16.3",
+    "http": "0.0.0",
+    "jsonwebtoken": "^8.2.1",
+    "mocha": "^5.1.1",
+    "morgan": "^1.9.0",
+    "node-cache": "^4.2.0",
+    "promise": "^8.0.1",
+    "request": "^2.86.0"
+  }
+}
