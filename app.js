@@ -32,7 +32,7 @@ if (cluster.isMaster) {
     CHAT_API_ROOT = 'http://127.0.0.1:5002'
     AUTH_API_ROOT = USER_API_ROOT
     NEWS_API_ROOT = 'http://127.0.0.1:5003'
-    REVIEW_API_ROOT = 'http://127.0.0.1:5004'
+    REVIEW_API_ROOT = 'https://portal-review.herokuapp.com'
 
     app.post('/api/auth', u.auth_api)
 
