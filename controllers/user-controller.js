@@ -10,8 +10,8 @@ module.exports = {
             // rejectUnauthorized: false
         };
         h.send_request(options, function (error, response, body, req) {
-            console.log(body)
-            res.json(body)
+            // console.log(body)
+            res.status(response.statusCode).json(body)
         })
     },
     depr_aggregation_api: function (req, res) {

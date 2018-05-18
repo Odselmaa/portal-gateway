@@ -46,9 +46,9 @@ module.exports = {
                                     fields: ["firstname", "lastname", "profile"]
                                 },
                                 method: 'GET',
-                                headers: {
-                                    Authorization: headers.authorization
-                                }
+                                // headers: {
+                                //     Authorization: headers.authorization
+                                // }
                             };
                             var prom = new Promise(function (resolve, reject) {
                                 h.send_request(opt, function (error, response, body1, req) {
