@@ -2,13 +2,9 @@ var h = require('../helper.js')
 
 module.exports = {
     user_api: function (req, res) {
-        if(req.method!="GET")
-            payload = req.body
-        else
-            payload = {}
         var options = {
             uri: USER_API_ROOT + req.url,
-            json: payload,
+            json: req.body,
             method: req.method,
             // headers: req.headers,
             // rejectUnauthorized: false
