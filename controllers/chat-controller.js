@@ -24,7 +24,10 @@ module.exports = {
                 // headers: request.headers
             };
             h.send_request(options, function (error, response, body, req) {
-                if (!error && body.statusCode == 200) resolve(body)
+                console.log(body)
+                if (!error && body.statusCode == 200){ 
+                    resolve(body)
+                }
                 else reject(new Error("Whoops!"));
             })
         })
@@ -71,6 +74,8 @@ module.exports = {
                 Promise.all(promises).then((result) => {
                     // body.participants = result
                     resolve(body)
+                }).catch((e)=>{
+                    console.log(e)
                 });
             })
         }).then(function (body) {
