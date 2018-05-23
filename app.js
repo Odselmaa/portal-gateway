@@ -29,7 +29,7 @@ if (cluster.isMaster) {
 
     USER_API_ROOT = 'https://portal-user.herokuapp.com'
     REPORT_API_ROOT = USER_API_ROOT
-    CHAT_API_ROOT = 'http://127.0.0.1:5002'
+    CHAT_API_ROOT = 'https://portal-chat.herokuapp.com'
     AUTH_API_ROOT = USER_API_ROOT
     NEWS_API_ROOT = 'http://127.0.0.1:5003'
     REVIEW_API_ROOT = 'https://portal-review.herokuapp.com'
