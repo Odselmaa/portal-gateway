@@ -16,7 +16,7 @@ function check_auth(token, res,  next){
         else{
 
             // b = JSON.parse(body)
-            res.json(body)
+            res.status(response.statusCode).json(body)
         }
     })
     // next()

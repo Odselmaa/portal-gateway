@@ -88,7 +88,7 @@ module.exports = {
         };
         h.send_request(options, function (error, response, body, req) {
             console.log(body)
-            res.json(body)
+            res.status(response.statusCode).json(body)
         })
     }
 }
