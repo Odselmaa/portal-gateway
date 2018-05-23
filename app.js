@@ -101,6 +101,10 @@ if (cluster.isMaster) {
     app.get('/api/review/chair/:id', [m.authMiddleware], rv.dep_review_api)
     app.post('/api/review/chair', [m.authMiddleware], rv.dep_review_api)
 
+    app.use(function (err, req, res, next) {
+        console.error(err.stack)
+        res.status(500).json({response:  'Something broke!', statusCode: 500})
+    })
 
     // if (!module.parent) {
     //     // app.listen(3000);
