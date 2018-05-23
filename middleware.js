@@ -19,7 +19,7 @@ function check_auth(token, res,  next){
             res.json(body)
         }
     })
-    next()
+    // next()
 }
 
 module.exports = {
