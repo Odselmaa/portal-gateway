@@ -6,7 +6,7 @@ module.exports = {
             uri: CHAT_API_ROOT + req.url,
             json: req.body,
             method: req.method,
-            headers: req.headers
+            // headers: req.headers
         };
         h.send_request(options, function (error, response, body, req) {
             res.json(body)
@@ -21,7 +21,7 @@ module.exports = {
                 uri: CHAT_API_ROOT + request.url,
                 json: request.body,
                 method: request.method,
-                headers: request.headers
+                // headers: request.headers
             };
             h.send_request(options, function (error, response, body, req) {
                 if (!error && body.statusCode == 200) resolve(body)
