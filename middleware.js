@@ -25,7 +25,7 @@ function check_auth(token, res,  next){
 module.exports = {
     authMiddleware: function (req, res, next) {
         auth_header = req.headers.authorization
-        print(auth_header)
+        console.log(auth_header)
         if(auth_header!=undefined){
             tokens = auth_header.split(" ")
             if(tokens.length == 2){
