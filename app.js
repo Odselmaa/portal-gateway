@@ -27,7 +27,8 @@ if (cluster.isMaster) {
     }))
     app.use(morgan('combined'))
 
-    USER_API_ROOT = 'https://portal-user.herokuapp.com'
+    USER_API_ROOT = //"http://localhost:5004/api/"
+    'https://portal-user.herokuapp.com'
     REPORT_API_ROOT = USER_API_ROOT
     CHAT_API_ROOT = 'https://portal-chat.herokuapp.com'
     AUTH_API_ROOT = USER_API_ROOT
