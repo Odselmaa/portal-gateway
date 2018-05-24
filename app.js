@@ -1,13 +1,13 @@
 var cluster = require('cluster');
 const PORT = process.env.PORT || 5000
 
-if (cluster.isMaster) {
-    var cpuCount = require('os').cpus().length;
-    // Create a worker for each CPU
-    for (var i = 0; i < cpuCount; i += 1) {
-        cluster.fork();
-    }
-} else {
+// if (cluster.isMaster) {
+//     var cpuCount = require('os').cpus().length;
+//     // Create a worker for each CPU
+//     for (var i = 0; i < cpuCount; i += 1) {
+//         cluster.fork();
+//     }
+// } else {
     var express = require('express')
     var body_parser = require("body-parser")
     var morgan = require('morgan')
@@ -117,4 +117,4 @@ if (cluster.isMaster) {
     // }
     module.exports = app; // for testing
 
-}
+// }
