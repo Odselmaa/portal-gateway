@@ -112,7 +112,7 @@ if (cluster.isMaster) {
     var server = http.listen(PORT, () => {
         console.log("server is listening on port", server.address().port)
     })
-    server.setTimeout(5000000);
+    // server.setTimeout(5000000);
 
     // }
     module.exports = app; // for testing
