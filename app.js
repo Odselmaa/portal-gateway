@@ -39,7 +39,13 @@ if (cluster.isMaster) {
 
     app.get('/api/user', [m.authMiddleware], u.user_api)
     app.post('/api/user', [m.authMiddleware], u.user_api)
-    app.get('/api/user/:user_id', [m.authMiddleware], u.user_api)
+    app.get('/api/user/:user_id',  (req, res)=>{
+        u.user_api(req, res).then((response)=>{
+            console.log(response)
+            res.json(response)
+        })
+    })
+
     app.put('/api/user/:user_id', [m.authMiddleware], u.user_api)
     app.get('/api/user/:user_id/friend', [m.authMiddleware], u.user_api)
     app.post('/api/user/:user_id/friend/:friend_id', [m.authMiddleware], u.user_api)
@@ -107,15 +113,14 @@ if (cluster.isMaster) {
         res.status(500).json({response:  'Something broke!', statusCode: 500})
     })
 
-    // if (!module.parent) {
-    //     // app.listen(3000);
-
     var server = http.listen(PORT, () => {
         console.log("server is listening on port", server.address().port)
     })
-    // server.setTimeout(5000000);
+ 
 
-    // }
     module.exports = app; // for testing
 
 }
+process.on('uncaughtException', function (err) {
+    console.log(err);
+}); 

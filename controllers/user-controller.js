@@ -1,7 +1,11 @@
 var h = require('../helper.js')
+const rp = require('request-promise')
+
+
 
 module.exports = {
-    user_api: function (req, res) {
+    user_api: async function (req, res) {
+
         var options = {
             uri: USER_API_ROOT + req.url,
             json: req.body,
@@ -9,10 +13,16 @@ module.exports = {
             // headers: req.headers,
             // rejectUnauthorized: false
         };
-        h.send_request(options, function (error, response, body, req) {
-            // console.log(body)
-            res.status(response.statusCode).json(body)
-        })
+        // h.send_request(options, function (error, response, body, req) {
+        //     // console.log(body)
+        //     res.status(response.statusCode).json(body)
+        // })
+        try {
+            const response = await rp(options);
+            return Promise.resolve(response);
+        } catch (error) {
+            return Promise.resolve({error:error});
+        }
     },
     depr_aggregation_api: function (req, res) {
         var lang = req.query.lang
@@ -47,7 +57,7 @@ module.exports = {
                         department.response.chairs = []
                     }
                     resolve(department);
-        
+
                 })
             });
             return promise;
@@ -66,7 +76,7 @@ module.exports = {
         get_department(options)
             .then(get_chairs)
             .then((body) => {
-                
+
                 res.json(body)
             }).catch(() => {
                 res.json({
@@ -77,8 +87,7 @@ module.exports = {
             });
     },
 
-    auth_api: function (req, res) {
-        console.log(req.body)
+    auth_api: async function (req, res) {
 
         var options = {
             uri: AUTH_API_ROOT + req.url,
@@ -86,9 +95,20 @@ module.exports = {
             method: req.method,
             // headers: req.headers,
         };
-        h.send_request(options, function (error, response, body, req) {
-            console.log(body)
-            res.status(response.statusCode).json(body)
-        })
+        // h.send_request(options, function (error, response, body, req) {
+        //     console.log(body)
+        //     res.status(response.statusCode).json(body)
+        // })
+        rp(options)
+            .then(function (body) {
+                console.log(body)
+
+                res.json(body)
+            })
+            .catch(function (err) {
+                res.json({
+                    error: err
+                })
+            });
     }
 }
