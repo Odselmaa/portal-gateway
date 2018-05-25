@@ -40,19 +40,23 @@ if (cluster.isMaster) {
 
     app.post('/api/auth', u.auth_api)
 
-    app.get('/api/user', [m.authMiddleware], u.user_api)
-    app.post('/api/user', [m.authMiddleware], u.user_api)
+    app.get('/api/user', [m.authMiddleware],  (req, res, next)=>{
+        userServiceProxy(req, res, next)
+    }
+)
+    app.post('/api/user', [m.authMiddleware],  (req, res, next)=>{
+        userServiceProxy(req, res, next)
+    })
     app.get('/api/user/:user_id',  (req, res, next)=>{
         userServiceProxy(req, res, next)
-
-        // u.user_api(req, res).then((response)=>{
-        //     console.log(response)
-        //     res.json(response)
-        // })
     })
 
-    app.put('/api/user/:user_id', [m.authMiddleware], u.user_api)
-    app.get('/api/user/:user_id/friend', [m.authMiddleware], u.user_api)
+    app.put('/api/user/:user_id', [m.authMiddleware],  (req, res, next)=>{
+        userServiceProxy(req, res, next)
+    })
+    app.get('/api/user/:user_id/friend', [m.authMiddleware],  (req, res, next)=>{
+        userServiceProxy(req, res, next)
+    })
     app.post('/api/user/:user_id/friend/:friend_id', [m.authMiddleware], u.user_api)
     app.delete('/api/user/:user_id/friend/:friend_id', [m.authMiddleware], u.user_api)
     app.post('/api/user/:user_id/block', [m.authMiddleware], u.user_api)
