@@ -30,38 +30,49 @@ if (cluster.isMaster) {
     app.use(morgan('combined'))
 
     USER_API_ROOT = //"http://localhost:5004/api/"
-    'https://portal-user.herokuapp.com'
+        'https://portal-user.herokuapp.com'
     REPORT_API_ROOT = USER_API_ROOT
     CHAT_API_ROOT = 'https://portal-chat.herokuapp.com'
     AUTH_API_ROOT = USER_API_ROOT
     NEWS_API_ROOT = 'http://127.0.0.1:5003'
     REVIEW_API_ROOT = 'https://portal-review.herokuapp.com'
-    const userServiceProxy = httpProxy(USER_API_ROOT, {timeout:1000 * 10})
-
-    app.post('/api/auth', u.auth_api)
-
-    app.get('/api/user', [m.authMiddleware],  (req, res, next)=>{
-        userServiceProxy(req, res, next)
-    }
-)
-    app.post('/api/user', [m.authMiddleware],  (req, res, next)=>{
-        userServiceProxy(req, res, next)
+    const userServiceProxy = httpProxy(USER_API_ROOT, {
+        timeout: 1000 * 10
     })
-    app.get('/api/user/:user_id',  (req, res, next)=>{
+
+    app.post('/api/auth', (req, res, next) => {
         userServiceProxy(req, res, next)
     })
 
-    app.put('/api/user/:user_id', [m.authMiddleware],  (req, res, next)=>{
+    app.get('/api/user', (req, res, next) => {
         userServiceProxy(req, res, next)
     })
-    app.get('/api/user/:user_id/friend', [m.authMiddleware],  (req, res, next)=>{
+    app.post('/api/user', [m.authMiddleware], (req, res, next) => {
         userServiceProxy(req, res, next)
     })
-    app.post('/api/user/:user_id/friend/:friend_id', [m.authMiddleware], u.user_api)
-    app.delete('/api/user/:user_id/friend/:friend_id', [m.authMiddleware], u.user_api)
-    app.post('/api/user/:user_id/block', [m.authMiddleware], u.user_api)
-    // app.get('/api/university/:lang', u.user_api)
-    app.get('/api/department', [m.authMiddleware], [m.authMiddleware], u.user_api)
+    app.get('/api/user/:user_id', (req, res, next) => {
+        userServiceProxy(req, res, next)
+    })
+
+    app.put('/api/user/:user_id', [m.authMiddleware], (req, res, next) => {
+        userServiceProxy(req, res, next)
+    })
+    app.get('/api/user/:user_id/friend', [m.authMiddleware], (req, res, next) => {
+        userServiceProxy(req, res, next)
+    })
+    app.post('/api/user/:user_id/friend/:friend_id', [m.authMiddleware], (req, res, next) => {
+        userServiceProxy(req, res, next)
+    })
+    app.delete('/api/user/:user_id/friend/:friend_id', [m.authMiddleware], (req, res, next) => {
+        userServiceProxy(req, res, next)
+    })
+    app.post('/api/user/:user_id/block', [m.authMiddleware], (req, res, next) => {
+        userServiceProxy(req, res, next)
+    })
+    // app.get('/api/university/:lang',  (req, res, next)=>{         userServiceProxy(req, res, next)     })
+    app.get('/api/department', [m.authMiddleware], [m.authMiddleware], (req, res, next) => {
+        userServiceProxy(req, res, next)
+    })
     app.get('/api/department/:dep_id', [m.authMiddleware], [m.authMiddleware], (req, res) => {
 
         fields = req.query.fields.split(',');
@@ -76,13 +87,27 @@ if (cluster.isMaster) {
     })
 
 
-    app.get('/api/chair', [m.authMiddleware], u.user_api)
-    app.get('/api/chair/:id', [m.authMiddleware], u.user_api)
-    app.get('/api/chair/department/:dep_id', [m.authMiddleware], u.user_api)
+    app.get('/api/chair', [m.authMiddleware], (req, res, next) => {
+        userServiceProxy(req, res, next)
+    })
+    app.get('/api/chair/:id', [m.authMiddleware], (req, res, next) => {
+        userServiceProxy(req, res, next)
+    })
+    app.get('/api/chair/department/:dep_id', [m.authMiddleware], (req, res, next) => {
+        userServiceProxy(req, res, next)
+    })
 
-    app.get('/api/languages', [m.authMiddleware], u.user_api)
-    app.get('/api/gender', [m.authMiddleware], u.user_api)
-    app.get('/api/country', [m.authMiddleware], u.user_api)
+    app.get('/api/languages', [m.authMiddleware], (req, res, next) => {
+        userServiceProxy(req, res, next)
+    })
+
+    app.get('/api/gender', [m.authMiddleware], (req, res, next) => {
+        userServiceProxy(req, res, next)
+    })
+
+    app.get('/api/country', (req, res, next) => {
+        userServiceProxy(req, res, next)
+    })
 
     app.get('/api/report/:status', [m.authMiddleware], r.report_api)
         .put('/api/report/:status', [m.authMiddleware], r.report_api)
@@ -119,17 +144,19 @@ if (cluster.isMaster) {
 
     app.use(function (err, req, res, next) {
         console.error(err.stack)
-        res.status(500).json({response:  'Something broke!', statusCode: 500})
+        res.status(500).json({
+            response: 'Something broke!',
+            statusCode: 500
+        })
     })
 
     var server = http.listen(PORT, () => {
         console.log("server is listening on port", server.address().port)
     })
- 
+    process.on('uncaughtException', function (err) {
+        console.log(err);
+    });
 
     module.exports = app; // for testing
 
 }
-process.on('uncaughtException', function (err) {
-    console.log(err);
-}); 
