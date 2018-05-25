@@ -10,6 +10,7 @@ module.exports = {
             uri: USER_API_ROOT + req.url,
             json: req.body,
             method: req.method,
+            timeout: 50000,
             // headers: req.headers,
             // rejectUnauthorized: false
         };
