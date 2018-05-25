@@ -29,10 +29,11 @@ if (cluster.isMaster) {
     }))
     app.use(morgan('combined'))
 
-    USER_API_ROOT = //"http://localhost:5004/api/"
+    USER_API_ROOT =// "http://localhost:5004"
          'https://portal-user.herokuapp.com'
     REPORT_API_ROOT = USER_API_ROOT
-    CHAT_API_ROOT = 'https://portal-chat.herokuapp.com'
+    CHAT_API_ROOT = 'https://portal-chat.herokuapp.com' 
+                    //"http://localhost:5002"
     AUTH_API_ROOT = USER_API_ROOT
     NEWS_API_ROOT = 'http://127.0.0.1:5003'
     REVIEW_API_ROOT = 'https://portal-review.herokuapp.com'
@@ -42,13 +43,13 @@ if (cluster.isMaster) {
         userServiceProxy(req, res, next)
     })
 
-    app.get('/api/user',  [m.authMiddleware],(req, res, next) => {
+    app.get('/api/user', (req, res, next) => {
         userServiceProxy(req, res, next)
     })
     app.post('/api/user', [m.authMiddleware], (req, res, next) => {
         userServiceProxy(req, res, next)
     })
-    app.get('/api/user/:user_id',  [m.authMiddleware],(req, res, next) => {
+    app.get('/api/user/:user_id', (req, res, next) => {
         userServiceProxy(req, res, next)
     })
 

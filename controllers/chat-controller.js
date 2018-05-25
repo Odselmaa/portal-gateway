@@ -12,7 +12,7 @@ module.exports = {
             res.json(body)
         })
     },
-
+    
     chats_aggregation: function (request, res) {
         var user1 = request.params.user1
         var headers = request.headers
@@ -44,20 +44,19 @@ module.exports = {
                         _id = parts[j]['id']
                         if (_id != user1) {
                             var opt = {
-                                uri: USER_API_ROOT + '/api/user/' + _id,
+                                uri: USER_API_ROOT + '/api/user/' + _id + `?fields=${["firstname", "lastname", "profile"].join(',')}`,
                                 json: {
-                                    fields: ["firstname", "lastname", "profile"]
                                 },
                                 method: 'GET',
-                                // headers: {
-                                //     Authorization: headers.authorization
-                                // }
                             };
                             var prom = new Promise(function (resolve, reject) {
+                                var index = index_chat
                                 h.send_request(opt, function (error, response, body1, req) {
-
+                                    
                                     if (!error && body1.statusCode == 200) {
-                                        body.response[index_chat].participants = body1.response
+                                        // console.log(body1.response)
+                                        // console.log(index_chat)
+                                        // body.response[index_chat].participants = body1.response
                                         resolve(body1.response)
                                     } else {
                                         reject(new Error("In chat api, something went wrong"))
@@ -73,6 +72,10 @@ module.exports = {
                 }
                 Promise.all(promises).then((result) => {
                     // body.participants = result
+                    for(var i = 0;i<result.length;i++){
+                        body.response[i].participants = result[i]
+                    }
+                    console.log(body)
                     resolve(body)
                 }).catch((e)=>{
                     console.log(e)
