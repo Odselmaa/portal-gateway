@@ -42,13 +42,13 @@ if (cluster.isMaster) {
         userServiceProxy(req, res, next)
     })
 
-    app.get('/api/user', (req, res, next) => {
+    app.get('/api/user',  [m.authMiddleware],(req, res, next) => {
         userServiceProxy(req, res, next)
     })
     app.post('/api/user', [m.authMiddleware], (req, res, next) => {
         userServiceProxy(req, res, next)
     })
-    app.get('/api/user/:user_id', (req, res, next) => {
+    app.get('/api/user/:user_id',  [m.authMiddleware],(req, res, next) => {
         userServiceProxy(req, res, next)
     })
 
