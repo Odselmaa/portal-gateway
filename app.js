@@ -36,9 +36,7 @@ if (cluster.isMaster) {
     AUTH_API_ROOT = USER_API_ROOT
     NEWS_API_ROOT = 'http://127.0.0.1:5003'
     REVIEW_API_ROOT = 'https://portal-review.herokuapp.com'
-    const userServiceProxy = httpProxy(USER_API_ROOT, {
-        timeout: 1000 * 10
-    })
+    const userServiceProxy = httpProxy(USER_API_ROOT)
 
     app.post('/api/auth', (req, res, next) => {
         userServiceProxy(req, res, next)
