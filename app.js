@@ -11,6 +11,8 @@ if (cluster.isMaster) {
     var express = require('express')
     var body_parser = require("body-parser")
     var morgan = require('morgan')
+    const httpProxy = require('express-http-proxy')
+
     var app = express()
     var http = require('http').Server(app)
     var u = require('./controllers/user-controller.js')
@@ -34,16 +36,19 @@ if (cluster.isMaster) {
     AUTH_API_ROOT = USER_API_ROOT
     NEWS_API_ROOT = 'http://127.0.0.1:5003'
     REVIEW_API_ROOT = 'https://portal-review.herokuapp.com'
+    const userServiceProxy = httpProxy(USER_API_ROOT)
 
     app.post('/api/auth', u.auth_api)
 
     app.get('/api/user', [m.authMiddleware], u.user_api)
     app.post('/api/user', [m.authMiddleware], u.user_api)
     app.get('/api/user/:user_id',  (req, res)=>{
-        u.user_api(req, res).then((response)=>{
-            console.log(response)
-            res.json(response)
-        })
+        userServiceProxy(req, res, next)
+
+        // u.user_api(req, res).then((response)=>{
+        //     console.log(response)
+        //     res.json(response)
+        // })
     })
 
     app.put('/api/user/:user_id', [m.authMiddleware], u.user_api)
