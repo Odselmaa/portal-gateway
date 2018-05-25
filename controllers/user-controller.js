@@ -1,8 +1,6 @@
 var h = require('../helper.js')
 const rp = require('request-promise')
 
-
-
 module.exports = {
     user_api: async function (req, res) {
 
