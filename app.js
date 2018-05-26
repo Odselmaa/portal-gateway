@@ -29,15 +29,20 @@ if (cluster.isMaster) {
     }))
     app.use(morgan('combined'))
 
-    USER_API_ROOT =// "http://localhost:5004"
-         'https://portal-user.herokuapp.com'
+    USER_API_ROOT = 'https://portal-user.herokuapp.com' // "http://localhost:5004"
     REPORT_API_ROOT = USER_API_ROOT
-    CHAT_API_ROOT = 'https://portal-chat.herokuapp.com' 
-                    //"http://localhost:5002"
+    CHAT_API_ROOT = 'https://portal-chat.herokuapp.com' //"http://localhost:5002"
     AUTH_API_ROOT = USER_API_ROOT
     NEWS_API_ROOT = 'https://portal-news-api.herokuapp.com'
     REVIEW_API_ROOT = 'https://portal-review.herokuapp.com'
+
     const userServiceProxy = httpProxy(USER_API_ROOT)
+    const reportServiceProxy = httpProxy(REPORT_API_ROOT)
+    const chatServiceProxy = httpProxy(CHAT_API_ROOT)
+    const authServiceProxy = httpProxy(AUTH_API_ROOT)
+    const newsServiceProxy = httpProxy(NEWS_API_ROOT)
+    const reviewServiceProxy = httpProxy(REVIEW_API_ROOT)
+
 
     app.post('/api/auth', (req, res, next) => {
         userServiceProxy(req, res, next)
@@ -72,6 +77,7 @@ if (cluster.isMaster) {
     app.get('/api/department', [m.authMiddleware], [m.authMiddleware], (req, res, next) => {
         userServiceProxy(req, res, next)
     })
+
     app.get('/api/department/:dep_id', [m.authMiddleware], [m.authMiddleware], (req, res) => {
 
         fields = req.query.fields.split(',');
@@ -121,11 +127,21 @@ if (cluster.isMaster) {
     app.get('/api/chat/user/user_id/message', [m.authMiddleware], c.chat_api)
     app.post('/api/chat/:chat_id/user/:user_id', [m.authMiddleware], c.chat_api)
 
-    app.get('/api/news', [m.authMiddleware], n.news_api)
-        .post('/api/news', [m.authMiddleware], n.news_api)
-    app.get('/api/news/:news_id', [m.authMiddleware], n.news_api)
-        .put('/api/news/:news_id', [m.authMiddleware], n.news_api)
-        .delete('/api/news/:news_id', [m.authMiddleware], n.news_api)
+    app.get('/api/news', [m.authMiddleware], (req, res, next) => {
+            newsServiceProxy(req, res, next)
+        })
+        .post('/api/news', [m.authMiddleware], (req, res, next) => {
+            newsServiceProxy(req, res, next)
+        })
+    app.get('/api/news/:news_id', [m.authMiddleware], (req, res, next) => {
+            newsServiceProxy(req, res, next)
+        })
+        .put('/api/news/:news_id', [m.authMiddleware], (req, res, next) => {
+            newsServiceProxy(req, res, next)
+        })
+        .delete('/api/news/:news_id', [m.authMiddleware], (req, res, next) => {
+            newsServiceProxy(req, res, next)
+        })
 
     app.get('/api/review', [m.authMiddleware], rv.review_api)
         .post('/api/review', [m.authMiddleware], rv.review_api)
