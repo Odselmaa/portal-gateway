@@ -50,7 +50,7 @@ module.exports = {
                     }
                 };
                 h.send_request(options, function (error, response, body, req) {
-                    if (body.statusCode == 200) {
+                    if (response.statusCode == 200) {
                         department.response.chairs = body.response
                     } else {
                         department.response.chairs = []

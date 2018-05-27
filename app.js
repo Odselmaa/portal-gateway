@@ -8,21 +8,22 @@ if (cluster.isMaster) {
         cluster.fork();
     }
 } else {
-    var express = require('express')
-    var body_parser = require("body-parser")
-    var morgan = require('morgan')
-    const httpProxy = require('express-http-proxy')
+    let express = require('express')
+    let body_parser = require("body-parser")
+    let morgan = require('morgan')
+    let httpProxy = require('express-http-proxy')
 
-    var app = express()
-    var http = require('http').Server(app)
-    var u = require('./controllers/user-controller.js')
-    var r = require('./controllers/report-controller.js')
-    var c = require('./controllers/chat-controller.js')
-    var n = require('./controllers/news_controller.js')
-    var rv = require('./controllers/review-controller.js')
+    let u = require('./controllers/user-controller.js')
+    let r = require('./controllers/report-controller.js')
+    let c = require('./controllers/chat-controller.js')
+    // var n = require('./controllers/news_controller.js')
+    let rv = require('./controllers/review-controller.js')
+    let m = require('./middleware.js')
 
-    var h = require('./helper.js')
-    var m = require('./middleware.js')
+    let app = express()
+    let http = require('http').Server(app)
+
+
     app.use(body_parser.json())
     app.use(body_parser.urlencoded({
         extended: false
@@ -43,42 +44,23 @@ if (cluster.isMaster) {
     const newsServiceProxy = httpProxy(NEWS_API_ROOT)
     const reviewServiceProxy = httpProxy(REVIEW_API_ROOT)
 
+    function userAPI(req, res, next){
+            userServiceProxy(req, res, next)
+    }
 
-    app.post('/api/auth', (req, res, next) => {
-        userServiceProxy(req, res, next)
-    })
-
-    app.get('/api/user', (req, res, next) => {
-        userServiceProxy(req, res, next)
-    })
-    app.post('/api/user', [m.authMiddleware], (req, res, next) => {
-        userServiceProxy(req, res, next)
-    })
-    app.get('/api/user/:user_id', (req, res, next) => {
-        userServiceProxy(req, res, next)
-    })
-
-    app.put('/api/user/:user_id', [m.authMiddleware], (req, res, next) => {
-        userServiceProxy(req, res, next)
-    })
-    app.get('/api/user/:user_id/friend', [m.authMiddleware], (req, res, next) => {
-        userServiceProxy(req, res, next)
-    })
-    app.post('/api/user/:user_id/friend/:friend_id', [m.authMiddleware], (req, res, next) => {
-        userServiceProxy(req, res, next)
-    })
-    app.delete('/api/user/:user_id/friend/:friend_id', [m.authMiddleware], (req, res, next) => {
-        userServiceProxy(req, res, next)
-    })
-    app.post('/api/user/:user_id/block', [m.authMiddleware], (req, res, next) => {
-        userServiceProxy(req, res, next)
-    })
+    app.post('/api/auth', userServiceProxy)
+    app.get('/api/user', [m.authMiddleware], userServiceProxy)
+    app.post('/api/user', [m.authMiddleware], userServiceProxy)
+    app.get('/api/user/:user_id', [m.authMiddleware], userServiceProxy)
+    app.put('/api/user/:user_id', [m.authMiddleware], userServiceProxy)
+    app.get('/api/user/:user_id/friend', [m.authMiddleware], userServiceProxy)
+    app.post('/api/user/:user_id/friend/:friend_id', [m.authMiddleware], userServiceProxy)
+    app.delete('/api/user/:user_id/friend/:friend_id', [m.authMiddleware], userServiceProxy)
+    app.post('/api/user/:user_id/block', [m.authMiddleware], userServiceProxy)
     // app.get('/api/university/:lang',  (req, res, next)=>{         userServiceProxy(req, res, next)     })
-    app.get('/api/department', [m.authMiddleware], [m.authMiddleware], (req, res, next) => {
-        userServiceProxy(req, res, next)
-    })
+    app.get('/api/department', [m.authMiddleware], userServiceProxy)
 
-    app.get('/api/department/:dep_id', [m.authMiddleware], [m.authMiddleware], (req, res) => {
+    app.get('/api/department/:dep_id', [m.authMiddleware], (req, res) => {
 
         fields = req.query.fields.split(',');
         index = fields.indexOf('chairs')
@@ -92,63 +74,40 @@ if (cluster.isMaster) {
     })
 
 
-    app.get('/api/chair', [m.authMiddleware], (req, res, next) => {
-        userServiceProxy(req, res, next)
-    })
-    app.get('/api/chair/:id', [m.authMiddleware], (req, res, next) => {
-        userServiceProxy(req, res, next)
-    })
-    app.get('/api/chair/department/:dep_id', [m.authMiddleware], (req, res, next) => {
-        userServiceProxy(req, res, next)
-    })
+    app.get('/api/chair', [m.authMiddleware],userServiceProxy)
+    app.get('/api/chair/:id', [m.authMiddleware], userServiceProxy)
+    app.get('/api/chair/department/:dep_id', [m.authMiddleware], userServiceProxy)
 
-    app.get('/api/languages', [m.authMiddleware], (req, res, next) => {
-        userServiceProxy(req, res, next)
-    })
+    app.get('/api/languages', [m.authMiddleware],userServiceProxy)
+    app.get('/api/gender', [m.authMiddleware],userServiceProxy)
 
-    app.get('/api/gender', [m.authMiddleware], (req, res, next) => {
-        userServiceProxy(req, res, next)
-    })
+    app.get('/api/country',[m.authMiddleware], userServiceProxy)
 
-    app.get('/api/country', (req, res, next) => {
-        userServiceProxy(req, res, next)
-    })
+    app.get('/api/report/:status', [m.authMiddleware], reportServiceProxy)
+        .put('/api/report/:status', [m.authMiddleware], reportServiceProxy)
+    app.post('/api/report', [m.authMiddleware], reportServiceProxy)
+    app.get('/api/report', [m.authMiddleware], reportServiceProxy)
 
-    app.get('/api/report/:status', [m.authMiddleware], r.report_api)
-        .put('/api/report/:status', [m.authMiddleware], r.report_api)
-    app.post('/api/report', [m.authMiddleware], r.report_api)
-    app.get('/api/report', [m.authMiddleware], r.report_api)
-
-    app.get('/api/chat/:chat_id', [m.authMiddleware], c.chat_api)
+    app.get('/api/chat/:chat_id', [m.authMiddleware], chatServiceProxy)
     app.get('/api/chat/user/:user1', [m.authMiddleware], c.chats_aggregation)
-    app.get('/api/chat/users/:user1/:user2', [m.authMiddleware], c.chat_api)
-        .post('/api/chat/users/:user1/:user2', [m.authMiddleware], c.chat_api)
-    app.get('/api/chat/:chat_id/message', [m.authMiddleware], c.chat_api)
-    app.get('/api/chat/user/user_id/message', [m.authMiddleware], c.chat_api)
-    app.post('/api/chat/:chat_id/user/:user_id', [m.authMiddleware], c.chat_api)
+    app.get('/api/chat/users/:user1/:user2', [m.authMiddleware], chatServiceProxy)
+        .post('/api/chat/users/:user1/:user2', [m.authMiddleware], chatServiceProxy)
+    app.get('/api/chat/:chat_id/message', [m.authMiddleware], chatServiceProxy)
+    app.get('/api/chat/user/user_id/message', [m.authMiddleware], chatServiceProxy)
+    app.post('/api/chat/:chat_id/user/:user_id', [m.authMiddleware], chatServiceProxy)
 
-    app.get('/api/news', [m.authMiddleware], (req, res, next) => {
-            newsServiceProxy(req, res, next)
-        })
-        .post('/api/news', [m.authMiddleware], (req, res, next) => {
-            newsServiceProxy(req, res, next)
-        })
-    app.get('/api/news/:news_id', [m.authMiddleware], (req, res, next) => {
-            newsServiceProxy(req, res, next)
-        })
-        .put('/api/news/:news_id', [m.authMiddleware], (req, res, next) => {
-            newsServiceProxy(req, res, next)
-        })
-        .delete('/api/news/:news_id', [m.authMiddleware], (req, res, next) => {
-            newsServiceProxy(req, res, next)
-        })
+    app.get('/api/news', [m.authMiddleware], newsServiceProxy)
+        .post('/api/news', [m.authMiddleware], newsServiceProxy)
+    app.get('/api/news/:news_id', [m.authMiddleware], newsServiceProxy)
+        .put('/api/news/:news_id', [m.authMiddleware],newsServiceProxy)
+        .delete('/api/news/:news_id', [m.authMiddleware],newsServiceProxy)
 
-    app.get('/api/review', [m.authMiddleware], rv.review_api)
-        .post('/api/review', [m.authMiddleware], rv.review_api)
+    app.get('/api/review', [m.authMiddleware], reviewServiceProxy)
+        .post('/api/review', [m.authMiddleware], reviewServiceProxy)
 
-    app.get('/api/review/:id', [m.authMiddleware], rv.review_api)
-    app.put('/api/review/:id', [m.authMiddleware], rv.review_api)
-    app.delete('/api/review/:id', [m.authMiddleware], rv.review_api)
+    app.get('/api/review/:id', [m.authMiddleware], reviewServiceProxy)
+    app.put('/api/review/:id', [m.authMiddleware], reviewServiceProxy)
+    app.delete('/api/review/:id', [m.authMiddleware], reviewServiceProxy)
 
     app.post('/api/review/department', [m.authMiddleware], rv.dep_review_api)
     app.get('/api/review/department/report', rv.dep_review_report_api)

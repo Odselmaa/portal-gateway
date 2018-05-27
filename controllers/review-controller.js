@@ -94,12 +94,10 @@ module.exports = {
                 for (var i = 0; i < reviews.length; i++) {
                     users.push(reviews[i].author)
                 }
-
                 get_users(req, users, (authors) => {
                     body.response.authors = authors
                     res.json(body)
                 })
-                // 
             } else
                 res.json(body)
         })

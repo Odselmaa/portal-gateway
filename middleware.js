@@ -8,7 +8,7 @@ function check_auth(token, res, next) {
         json: {}
     };
     rp(options).then((response) => {
-        console.log(response)
+        // console.log(response)
         if (response.statusCode == 200)
             next()
         else {
@@ -24,7 +24,7 @@ function check_auth(token, res, next) {
 module.exports = {
     authMiddleware: function (req, res, next) {
         auth_header = req.headers.authorization
-        console.log(auth_header)
+        // console.log(auth_header)
         if (auth_header != undefined) {
             tokens = auth_header.split(" ")
             if (tokens.length == 2) {
