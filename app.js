@@ -60,15 +60,15 @@ if (cluster.isMaster) {
 
     app.post('/api/auth', userServiceProxy)
     app.get('/api/user', [m.authMiddleware], httpProxy(getUserUrl))
-    app.post('/api/user', [m.authMiddleware], userServiceProxy)
-    app.get('/api/user/:user_id', [m.authMiddleware], userServiceProxy)
-    app.put('/api/user/:user_id', [m.authMiddleware], userServiceProxy)
-    app.get('/api/user/:user_id/friend', [m.authMiddleware], userServiceProxy)
-    app.post('/api/user/:user_id/friend/:friend_id', [m.authMiddleware], userServiceProxy)
-    app.delete('/api/user/:user_id/friend/:friend_id', [m.authMiddleware], userServiceProxy)
-    app.post('/api/user/:user_id/block', [m.authMiddleware], userServiceProxy)
+    app.post('/api/user', [m.authMiddleware], httpProxy(getUserUrl))
+    app.get('/api/user/:user_id', [m.authMiddleware], httpProxy(getUserUrl))
+    app.put('/api/user/:user_id', [m.authMiddleware], httpProxy(getUserUrl))
+    app.get('/api/user/:user_id/friend', [m.authMiddleware], httpProxy(getUserUrl))
+    app.post('/api/user/:user_id/friend/:friend_id', [m.authMiddleware], httpProxy(getUserUrl))
+    app.delete('/api/user/:user_id/friend/:friend_id', [m.authMiddleware], httpProxy(getUserUrl))
+    app.post('/api/user/:user_id/block', [m.authMiddleware], httpProxy(getUserUrl))
     // app.get('/api/university/:lang',  (req, res, next)=>{         userServiceProxy(req, res, next)     })
-    app.get('/api/department', [m.authMiddleware], userServiceProxy)
+    app.get('/api/department', [m.authMiddleware], httpProxy(getUserUrl))
 
     app.get('/api/department/:dep_id', [m.authMiddleware], (req, res) => {
 
