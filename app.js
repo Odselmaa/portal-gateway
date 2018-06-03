@@ -62,7 +62,7 @@ if (cluster.isMaster) {
     app.post('/api/auth', userServiceProxy)
     app.get('/api/user', [m.authMiddleware], httpProxy(getUserUrl))
     app.post('/api/user', [m.authMiddleware], httpProxy(getUserUrl))
-    app.get('/api/user/:user_id', [m.authMiddleware], httpProxy(getUserUrl))
+    app.get('/api/user/:user_id', httpProxy(getUserUrl))
     app.put('/api/user/:user_id', [m.authMiddleware], httpProxy(getUserUrl))
     app.get('/api/user/:user_id/friend', [m.authMiddleware], httpProxy(getUserUrl))
     app.post('/api/user/:user_id/friend/:friend_id', [m.authMiddleware], httpProxy(getUserUrl))
