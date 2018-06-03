@@ -37,30 +37,29 @@ if (cluster.isMaster) {
     NEWS_API_ROOT = 'https://portal-news-api.herokuapp.com'
     REVIEW_API_ROOT = 'https://portal-review.herokuapp.com'
 
-    var cur = 0;
-    const servers = [USER_API_ROOT, 'https://portal-user-app.herokuapp.com' ];
-
-    const userServiceProxy = httpProxy(getUserUrl())
+    let cur = 0
+    let servers = [USER_API_ROOT, "https://portal-user-app.herokuapp.com"]
+    const userServiceProxy = httpProxy(USER_API_ROOT)
     const reportServiceProxy = httpProxy(REPORT_API_ROOT)
     const chatServiceProxy = httpProxy(CHAT_API_ROOT)
     const authServiceProxy = httpProxy(AUTH_API_ROOT)
     const newsServiceProxy = httpProxy(NEWS_API_ROOT)
     const reviewServiceProxy = httpProxy(REVIEW_API_ROOT)
 
-    function userAPI(req, res, next){
-            return httpProxy(getUserUrl())
-            // userServiceProxy(req, res, next)
-    }
-
+    // function userAPI(req, res, next){
+    //     cur = (cur + 1) % servers.length
+    //     console.log(cur)
+    //     userServiceProxy(req, res, next)
+    // }
     function getUserUrl(){
-        url = servers[cur] 
+        url = servers[cur]
+        cur = (cur + 1) % servers.length
         console.log(url)
-        cur = (cur + 1) % servers.length;
-        return url;
+        return url
     }
 
     app.post('/api/auth', userServiceProxy)
-    app.get('/api/user',  userAPI)
+    app.get('/api/user', [m.authMiddleware], httpProxy(getUserUrl))
     app.post('/api/user', [m.authMiddleware], userServiceProxy)
     app.get('/api/user/:user_id', [m.authMiddleware], userServiceProxy)
     app.put('/api/user/:user_id', [m.authMiddleware], userServiceProxy)
