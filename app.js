@@ -39,7 +39,7 @@ if (cluster.isMaster) {
     REVIEW_API_ROOT = 'https://portal-review.herokuapp.com'
 
     let cur = 0
-    let servers = [USER_API_ROOT, "https://portal-user-app.herokuapp.com", "https://portal-user1.herokuapp.com"]
+    let servers = [USER_API_ROOT, "https://portal-user-app.herokuapp.com", "https://portal-user1.herokuapp.com","https://portal-user2.herokuapp.com" ]
     const userServiceProxy = httpProxy(USER_API_ROOT)
     const reportServiceProxy = httpProxy(REPORT_API_ROOT)
     const chatServiceProxy = httpProxy(CHAT_API_ROOT)
