@@ -8,7 +8,6 @@ if (cluster.isMaster) {
         cluster.fork();
     }
 } else {
-    
     let express = require('express')
     let body_parser = require("body-parser")
     let morgan = require('morgan')
@@ -88,6 +87,7 @@ if (cluster.isMaster) {
     app.get('/api/chair', [m.authMiddleware],userServiceProxy)
     app.get('/api/chair/:id', [m.authMiddleware], userServiceProxy)
     app.get('/api/chair/department/:dep_id', [m.authMiddleware], userServiceProxy)
+    
 
     app.get('/api/languages', [m.authMiddleware],userServiceProxy)
     app.get('/api/gender', [m.authMiddleware],userServiceProxy)
