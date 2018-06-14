@@ -23,6 +23,13 @@ if (cluster.isMaster) {
     let app = express()
     let http = require('http').Server(app)
 
+    var resourceMonitorMiddlewareCB = require('express-watcher').resourceMonitorMiddlewareCB
+    
+    app.use(function(req, res, next){
+        resourceMonitorMiddlewareCB(req, res, next, function(diffJson){
+          console.log(' diffJson : ', diffJson)
+        })
+      })
 
     app.use(body_parser.json())
     app.use(body_parser.urlencoded({

@@ -29,6 +29,7 @@
     "chai-http": "^4.0.0",
     "express": "^4.16.3",
     "express-http-proxy": "^1.2.0",
+    "express-watcher": "^1.0.3",
     "http": "0.0.0",
     "jsonwebtoken": "^8.2.1",
     "mocha": "^5.1.1",
