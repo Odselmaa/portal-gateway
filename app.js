@@ -24,18 +24,18 @@ if (cluster.isMaster) {
     let http = require('http').Server(app)
 
     var resourceMonitorMiddlewareCB = require('express-watcher').resourceMonitorMiddlewareCB
-    
-    app.use(function(req, res, next){
-        resourceMonitorMiddlewareCB(req, res, next, function(diffJson){
-          console.log(' diffJson : ', diffJson)
-        })
-      })
 
+  
     app.use(body_parser.json())
     app.use(body_parser.urlencoded({
         extended: false
     }))
     app.use(morgan('combined'))
+    app.use(function(req, res, next){
+        resourceMonitorMiddlewareCB(req, res, next, function(diffJson){
+          console.log(' diffJson : ', diffJson)
+        })
+      })
 
     USER_API_ROOT = 'https://portal-user.herokuapp.com' // "http://localhost:5004"
     REPORT_API_ROOT = USER_API_ROOT
