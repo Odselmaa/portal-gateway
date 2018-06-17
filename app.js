@@ -94,7 +94,9 @@ if (cluster.isMaster) {
     app.get('/api/chair', [m.authMiddleware],userServiceProxy)
     app.get('/api/chair/:id', [m.authMiddleware], userServiceProxy)
     app.get('/api/chair/department/:dep_id', [m.authMiddleware], userServiceProxy)
-    
+    app.get('/api/buddy', [m.authMiddleware], userServiceProxy)
+    app.get('/api/buddy/:_id', [m.authMiddleware], userServiceProxy)
+
 
     app.get('/api/languages', [m.authMiddleware],userServiceProxy)
     app.get('/api/gender', [m.authMiddleware],userServiceProxy)
