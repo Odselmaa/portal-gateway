@@ -19,6 +19,7 @@ if (cluster.isMaster) {
     // var n = require('./controllers/news_controller.js')
     let rv = require('./controllers/review-controller.js')
     let m = require('./middleware.js')
+    const urls = require('./urls.js')
 
     let app = express()
     let http = require('http').Server(app)
@@ -37,22 +38,16 @@ if (cluster.isMaster) {
         })
       })
 
-    USER_API_ROOT = 'https://portal-user.herokuapp.com' // "http://localhost:5004"
-    REPORT_API_ROOT = USER_API_ROOT
-    CHAT_API_ROOT = 'https://portal-chat.herokuapp.com' //"http://localhost:5002"
-    AUTH_API_ROOT = 'https://portal-auth.herokuapp.com'
-    NEWS_API_ROOT = 'https://portal-news-api.herokuapp.com'
-    REVIEW_API_ROOT = 'https://portal-review.herokuapp.com'
 
     let cur = 0
-    let servers = [USER_API_ROOT ,"https://portal-user-app.herokuapp.com", "https://portal-user1.herokuapp.com","https://portal-user2.herokuapp.com","https://portal-user3.herokuapp.com" ]
+    let servers = [urls.USER_API_ROOT ,"https://portal-user-app.herokuapp.com", "https://portal-user1.herokuapp.com","https://portal-user2.herokuapp.com","https://portal-user3.herokuapp.com" ]
 
-    const userServiceProxy = httpProxy(USER_API_ROOT)
-    const reportServiceProxy = httpProxy(REPORT_API_ROOT)
-    const chatServiceProxy = httpProxy(CHAT_API_ROOT)
-    const authServiceProxy = httpProxy(AUTH_API_ROOT)
-    const newsServiceProxy = httpProxy(NEWS_API_ROOT)
-    const reviewServiceProxy = httpProxy(REVIEW_API_ROOT)
+    const userServiceProxy = httpProxy(urls.USER_API_ROOT)
+    const reportServiceProxy = httpProxy(urls.REPORT_API_ROOT)
+    const chatServiceProxy = httpProxy(urls.CHAT_API_ROOT)
+    const authServiceProxy = httpProxy(urls.AUTH_API_ROOT)
+    const newsServiceProxy = httpProxy(urls.NEWS_API_ROOT)
+    const reviewServiceProxy = httpProxy(urls.REVIEW_API_ROOT)
 
     // function userAPI(req, res, next){
     //     cur = (cur + 1) % servers.length

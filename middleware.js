@@ -1,6 +1,7 @@
 var h = require('./helper.js')
 const rp = require('request-promise')
-let auth_servers = [AUTH_API_ROOT]
+const urls = require('./urls.js')
+let auth_servers = [urls.AUTH_API_ROOT]
 let current = 0
 
 function getAuthUrl(){
