@@ -40,7 +40,7 @@ if (cluster.isMaster) {
     USER_API_ROOT = 'https://portal-user.herokuapp.com' // "http://localhost:5004"
     REPORT_API_ROOT = USER_API_ROOT
     CHAT_API_ROOT = 'https://portal-chat.herokuapp.com' //"http://localhost:5002"
-    AUTH_API_ROOT = USER_API_ROOT
+    AUTH_API_ROOT = 'https://portal-auth.herokuapp.com'
     NEWS_API_ROOT = 'https://portal-news-api.herokuapp.com'
     REVIEW_API_ROOT = 'https://portal-review.herokuapp.com'
 
@@ -65,7 +65,7 @@ if (cluster.isMaster) {
         return url
     }
 
-    app.post('/api/auth', httpProxy(getUserUrl))
+    app.post('/api/auth',  httpProxy(getUserUrl))
     app.get('/api/user', [m.authMiddleware], httpProxy(getUserUrl))
     app.post('/api/user',  httpProxy(getUserUrl))
     app.get('/api/user/:user_id',[m.authMiddleware],  httpProxy(getUserUrl))
