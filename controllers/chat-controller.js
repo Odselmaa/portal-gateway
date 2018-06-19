@@ -1,9 +1,10 @@
 var h = require('../helper.js')
+const urls = require('../urls.js')
 
 module.exports = {
     chat_api: function (req, res) {
         var options = {
-            uri: CHAT_API_ROOT + req.url,
+            uri: urls.CHAT_API_ROOT + req.url,
             json: req.body,
             method: req.method,
             // headers: req.headers
@@ -18,7 +19,7 @@ module.exports = {
         var headers = request.headers
         new Promise(function (resolve, reject) {
             var options = {
-                uri: CHAT_API_ROOT + request.url,
+                uri: urls.CHAT_API_ROOT + request.url,
                 json: request.body,
                 method: request.method,
                 // headers: request.headers
@@ -44,7 +45,7 @@ module.exports = {
                         _id = parts[j]['id']
                         if (_id != user1) {
                             var opt = {
-                                uri: USER_API_ROOT + '/api/user/' + _id + `?fields=${["firstname", "lastname", "profile"].join(',')}`,
+                                uri: urls.USER_API_ROOT + '/api/user/' + _id + `?fields=${["firstname", "lastname", "profile"].join(',')}`,
                                 json: {
                                 },
                                 method: 'GET',

@@ -1,9 +1,11 @@
 var h = require('../helper.js')
+const urls = require('../urls.js')
+
 module.exports = {
  report_api:function(req, res){
     var status = req.params.status
     var options = {
-        uri: REPORT_API_ROOT  + req.url,
+        uri: urls.REPORT_API_ROOT  + req.url,
         json: req.body,
         method:  req.method
         };

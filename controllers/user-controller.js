@@ -1,11 +1,12 @@
 var h = require('../helper.js')
 const rp = require('request-promise')
+const urls = require('../urls.js')
 
 module.exports = {
     user_api: async function (req, res) {
 
         var options = {
-            uri: USER_API_ROOT + req.url,
+            uri: urls.USER_API_ROOT + req.url,
             json: req.body,
             method: req.method,
             timeout: 50000,
@@ -42,7 +43,7 @@ module.exports = {
             // 
             var promise = new Promise(function (resolve, reject) {
                 var options = {
-                    uri: USER_API_ROOT + `/api/chair/department/${department.response._id}?lang=${lang}`,
+                    uri: urls.USER_API_ROOT + `/api/chair/department/${department.response._id}?lang=${lang}`,
                     json: {},
                     method: req.method,
                     headers: {
@@ -64,7 +65,7 @@ module.exports = {
 
 
         var options = {
-            uri: USER_API_ROOT + req.url,
+            uri: urls.USER_API_ROOT + req.url,
             json: req.body,
             method: req.method,
             headers: {
@@ -89,7 +90,7 @@ module.exports = {
     auth_api: async function (req, res) {
 
         var options = {
-            uri: AUTH_API_ROOT + req.url,
+            uri: urls.AUTH_API_ROOT + req.url,
             json: req.body,
             method: req.method,
             // headers: req.headers,

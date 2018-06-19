@@ -1,9 +1,10 @@
 var h = require('../helper.js')
+const urls = require('../urls.js')
 
 module.exports = {
     news_api: function (req, res) {
         var options = {
-            uri: NEWS_API_ROOT + req.url,
+            uri: urls.NEWS_API_ROOT + req.url,
             json: req.body,
             method: req.method,
             headers: req.headers,

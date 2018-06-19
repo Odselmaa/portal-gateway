@@ -1,4 +1,5 @@
 var h = require('../helper.js')
+const urls = require('../urls.js')
 
 function get(options) {
     var promise = new Promise(function (resolve, reject) {
@@ -23,7 +24,7 @@ function get_users(req, users, next) {
         // }
     };
     for (var i = 0; i < users.length; i++) {
-        options.uri = `${USER_API_ROOT}/api/user/${users[i]}?fields=${fields}`
+        options.uri = `${urls.USER_API_ROOT}/api/user/${users[i]}?fields=${fields}`
         promises.push(get(options))
     }
 
@@ -50,7 +51,7 @@ function get_departments(req, deps, next) {
         }
     };
     for (var i = 0; i < deps.length; i++) {
-        options.uri = `${USER_API_ROOT}/api/department/${deps[i]}?lang=${lang}&fields=name`
+        options.uri = `${urls.USER_API_ROOT}/api/department/${deps[i]}?lang=${lang}&fields=name`
         promises.push(get(options))
     }
 
@@ -68,7 +69,7 @@ function get_departments(req, deps, next) {
 module.exports = {
     review_api: function (req, res) {
         var options = {
-            uri: REVIEW_API_ROOT + req.url,
+            uri: urls.REVIEW_API_ROOT + req.url,
             json: req.body,
             method: req.method,
             // headers: req.headers
@@ -80,7 +81,7 @@ module.exports = {
 
     dep_review_api: function (req, res) {
         var options = {
-            uri: REVIEW_API_ROOT + req.url,
+            uri: urls.REVIEW_API_ROOT + req.url,
             json: req.body,
             method: req.method,
             headers: {
@@ -106,7 +107,7 @@ module.exports = {
     dep_review_report_api: function (req, res) {
 
         var options = {
-            uri: REVIEW_API_ROOT + req.url,
+            uri: urls.REVIEW_API_ROOT + req.url,
             json: req.body,
             method: req.method,
             headers: {
