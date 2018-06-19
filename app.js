@@ -45,7 +45,9 @@ if (cluster.isMaster) {
     REVIEW_API_ROOT = 'https://portal-review.herokuapp.com'
 
     let cur = 0
-    let servers = [USER_API_ROOT,"https://portal-user-app.herokuapp.com", "https://portal-user1.herokuapp.com","https://portal-user2.herokuapp.com" ]
+    let servers = ['http://localhost:5004']
+        //USER_API_ROOT
+        // ,"https://portal-user-app.herokuapp.com", "https://portal-user1.herokuapp.com","https://portal-user2.herokuapp.com" ]
     const userServiceProxy = httpProxy(USER_API_ROOT)
     const reportServiceProxy = httpProxy(REPORT_API_ROOT)
     const chatServiceProxy = httpProxy(CHAT_API_ROOT)
@@ -65,7 +67,7 @@ if (cluster.isMaster) {
         return url
     }
 
-    app.post('/api/auth', userServiceProxy)
+    app.post('/api/auth', httpProxy(getUserUrl))
     app.get('/api/user', [m.authMiddleware], httpProxy(getUserUrl))
     app.post('/api/user',  httpProxy(getUserUrl))
     app.get('/api/user/:user_id',[m.authMiddleware],  httpProxy(getUserUrl))
