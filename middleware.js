@@ -1,9 +1,17 @@
 var h = require('./helper.js')
 const rp = require('request-promise')
+let auth_servers = [AUTH_API_ROOT]
+let current = 0
+
+function getAuthUrl(){
+    auth_url = auth_servers[current]
+    current = (current + 1) % auth_servers.length
+    return auth_url
+}
 
 function check_auth(token, res, next) {
     var options = {
-        uri: `${AUTH_API_ROOT}/api/check_authorization/${token}`,
+        uri: `${getAuthUrl()}/api/check_authorization/${token}`,
         method: 'GET',
         json: {}
     };
@@ -20,6 +28,7 @@ function check_auth(token, res, next) {
     })
     // next()
 }
+
 
 module.exports = {
     authMiddleware: function (req, res, next) {
