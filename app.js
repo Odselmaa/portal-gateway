@@ -26,21 +26,26 @@ if (cluster.isMaster) {
 
     var resourceMonitorMiddlewareCB = require('express-watcher').resourceMonitorMiddlewareCB
 
-  
+
     app.use(body_parser.json())
     app.use(body_parser.urlencoded({
         extended: false
     }))
     app.use(morgan('combined'))
-    app.use(function(req, res, next){
-        resourceMonitorMiddlewareCB(req, res, next, function(diffJson){
-          console.log(' diffJson : ', diffJson)
+    app.use(function (req, res, next) {
+        resourceMonitorMiddlewareCB(req, res, next, function (diffJson) {
+            console.log(' diffJson : ', diffJson)
         })
-      })
+    })
 
 
     let cur = 0
-    let servers = [urls.USER_API_ROOT ,"https://portal-user-app.herokuapp.com", "https://portal-user1.herokuapp.com","https://portal-user2.herokuapp.com","https://portal-user3.herokuapp.com" ]
+    let servers = [urls.USER_API_ROOT,
+        "https://portal-user-app.herokuapp.com",
+        "https://portal-user1.herokuapp.com",
+        "https://portal-user2.herokuapp.com",
+        "https://portal-user3.herokuapp.com"
+    ]
 
     const userServiceProxy = httpProxy(urls.USER_API_ROOT)
     const reportServiceProxy = httpProxy(urls.REPORT_API_ROOT)
@@ -54,17 +59,16 @@ if (cluster.isMaster) {
     //     console.log(cur)
     //     userServiceProxy(req, res, next)
     // }
-    function getUserUrl(){
+    function getUserUrl() {
         url = servers[cur]
         cur = (cur + 1) % servers.length
-        console.log(url)
         return url
     }
 
-    app.post('/api/auth',  httpProxy(getUserUrl))
+    app.post('/api/auth', httpProxy(getUserUrl))
     app.get('/api/user', [m.authMiddleware], httpProxy(getUserUrl))
-    app.post('/api/user',  httpProxy(getUserUrl))
-    app.get('/api/user/:user_id',[m.authMiddleware],  httpProxy(getUserUrl))
+    app.post('/api/user', httpProxy(getUserUrl))
+    app.get('/api/user/:user_id', [m.authMiddleware], httpProxy(getUserUrl))
     app.put('/api/user/:user_id', [m.authMiddleware], httpProxy(getUserUrl))
     app.get('/api/user/:user_id/friend', [m.authMiddleware], httpProxy(getUserUrl))
     app.post('/api/user/:user_id/friend/:friend_id', [m.authMiddleware], httpProxy(getUserUrl))
@@ -87,17 +91,17 @@ if (cluster.isMaster) {
     })
 
 
-    app.get('/api/chair', [m.authMiddleware],userServiceProxy)
+    app.get('/api/chair', [m.authMiddleware], userServiceProxy)
     app.get('/api/chair/:id', [m.authMiddleware], userServiceProxy)
     app.get('/api/chair/department/:dep_id', [m.authMiddleware], userServiceProxy)
     app.get('/api/buddy', [m.authMiddleware], userServiceProxy)
     app.get('/api/buddy/:_id', [m.authMiddleware], userServiceProxy)
 
 
-    app.get('/api/languages', [m.authMiddleware],userServiceProxy)
-    app.get('/api/gender', [m.authMiddleware],userServiceProxy)
+    app.get('/api/languages', [m.authMiddleware], userServiceProxy)
+    app.get('/api/gender', [m.authMiddleware], userServiceProxy)
 
-    app.get('/api/country',[m.authMiddleware], userServiceProxy)
+    app.get('/api/country', [m.authMiddleware], userServiceProxy)
 
     app.get('/api/report/:status', [m.authMiddleware], reportServiceProxy)
         .put('/api/report/:status', [m.authMiddleware], reportServiceProxy)
@@ -115,8 +119,8 @@ if (cluster.isMaster) {
     app.get('/api/news', [m.authMiddleware], newsServiceProxy)
         .post('/api/news', [m.authMiddleware], newsServiceProxy)
     app.get('/api/news/:news_id', [m.authMiddleware], newsServiceProxy)
-        .put('/api/news/:news_id', [m.authMiddleware],newsServiceProxy)
-        .delete('/api/news/:news_id', [m.authMiddleware],newsServiceProxy)
+        .put('/api/news/:news_id', [m.authMiddleware], newsServiceProxy)
+        .delete('/api/news/:news_id', [m.authMiddleware], newsServiceProxy)
 
     app.get('/api/review', [m.authMiddleware], reviewServiceProxy)
         .post('/api/review', [m.authMiddleware], reviewServiceProxy)
