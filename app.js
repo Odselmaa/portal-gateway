@@ -47,9 +47,15 @@ if (cluster.isMaster) {
         "https://portal-user1.herokuapp.com",
         "https://portal-user2.herokuapp.com",
         "https://portal-user3.herokuapp.com",
+        "https://portal-user4.herokuapp.com",
         "https://portal-user5.herokuapp.com",
+        "https://portal-user6.herokuapp.com",
         "https://portal-user7.herokuapp.com",
-        "https://portal-user-9.herokuapp.com"
+        "https://portal-user8.herokuapp.com",
+        "https://portal-user-9.herokuapp.com",
+        "https://portal-user10.herokuapp.com",
+        "https://portal-user11.herokuapp.com",
+
     ]
 
     const userServiceProxy = httpProxy(urls.USER_API_ROOT)
