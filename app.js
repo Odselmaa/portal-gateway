@@ -54,7 +54,7 @@ if (cluster.isMaster) {
         "https://portal-user8.herokuapp.com",
         "https://portal-user-9.herokuapp.com",
         "https://portal-user10.herokuapp.com",
-        "https://portal-user11.herokuapp.com",
+        "https://portal-user11.herokuapp.com"
 
     ]
 
