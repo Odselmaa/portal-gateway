@@ -12,6 +12,7 @@ if (cluster.isMaster) {
     let body_parser = require("body-parser")
     let morgan = require('morgan')
     let httpProxy = require('express-http-proxy')
+    const cache = require('./cache-provider.js')
 
     let u = require('./controllers/user-controller.js')
     let r = require('./controllers/report-controller.js')
@@ -40,8 +41,7 @@ if (cluster.isMaster) {
 
 
     let cur = 0
-    let servers = 
-    [
+    let servers = [
         urls.USER_API_ROOT,
         "https://portal-user-app.herokuapp.com",
         "https://portal-user1.herokuapp.com",
@@ -58,18 +58,34 @@ if (cluster.isMaster) {
 
     ]
 
-    const userServiceProxy = httpProxy(urls.USER_API_ROOT)
+    const userServiceProxy = httpProxy(urls.USER_API_ROOT, {
+        userResHeaderDecorator(headers, userReq, userRes, proxyReq, proxyRes) {
+          // recieves an Object of headers, returns an Object of headers.
+          console.log(userRes)
+          return headers;
+        }
+    });
     const reportServiceProxy = httpProxy(urls.REPORT_API_ROOT)
     const chatServiceProxy = httpProxy(urls.CHAT_API_ROOT)
     const authServiceProxy = httpProxy(urls.AUTH_API_ROOT)
     const newsServiceProxy = httpProxy(urls.NEWS_API_ROOT)
     const reviewServiceProxy = httpProxy(urls.REVIEW_API_ROOT)
 
-    // function userAPI(req, res, next){
-    //     cur = (cur + 1) % servers.length
-    //     console.log(cur)
-    //     userServiceProxy(req, res, next)
-    // }
+
+
+    app.use(function (req, res, next) {
+        if (req.method == 'GET') {
+            try {
+                value = cache.instance().get(req.url, true);
+                res.json(value)
+            } catch (err) {
+                
+                next()
+            }
+        } else
+            next();
+    });
+
     function getUserUrl() {
         url = servers[cur]
         cur = (cur + 1) % servers.length
@@ -85,16 +101,13 @@ if (cluster.isMaster) {
     app.post('/api/user/:user_id/friend/:friend_id', [m.authMiddleware], httpProxy(getUserUrl))
     app.delete('/api/user/:user_id/friend/:friend_id', [m.authMiddleware], httpProxy(getUserUrl))
     app.post('/api/user/:user_id/block', [m.authMiddleware], httpProxy(getUserUrl))
-    // app.get('/api/university/:lang',  (req, res, next)=>{         userServiceProxy(req, res, next)     })
     app.get('/api/department', [m.authMiddleware], httpProxy(getUserUrl))
-
     app.get('/api/department/:dep_id', [m.authMiddleware], (req, res) => {
 
         fields = req.query.fields.split(',');
         index = fields.indexOf('chairs')
         if (index > -1) {
             fields.splice(index, 1)
-
             u.depr_aggregation_api(req, res)
         } else {
             u.user_api(req, res)
