@@ -93,15 +93,7 @@ if (cluster.isMaster) {
     }
 
     app.post('/api/auth', httpProxy(getUserUrl))
-    app.get('/api/user', [m.authMiddleware], httpProxy(getUserUrl, {
-        userResHeaderDecorator(headers, userReq, userRes, proxyReq, proxyRes) {
-          // recieves an Object of headers, returns an Object of headers.
-          console.log(userRes)
-          console.log(proxyRes)
-
-          return headers;
-        }
-    }))
+    app.get('/api/user', [m.authMiddleware], httpProxy(getUserUrl))
     app.post('/api/user', httpProxy(getUserUrl))
     app.get('/api/user/:user_id', [m.authMiddleware], httpProxy(getUserUrl))
     app.put('/api/user/:user_id', [m.authMiddleware], httpProxy(getUserUrl))
