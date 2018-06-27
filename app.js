@@ -1,5 +1,6 @@
 var cluster = require('cluster');
 const PORT = process.env.PORT || 5000
+let cur = 0
 
 if (cluster.isMaster) {
     var cpuCount = require('os').cpus().length;
@@ -40,7 +41,6 @@ if (cluster.isMaster) {
     })
 
 
-    let cur = 0
     let servers = [
         urls.USER_API_ROOT,
         "https://portal-user-app.herokuapp.com",
@@ -89,7 +89,7 @@ if (cluster.isMaster) {
 
     function getUserUrl() {
         url = servers[cur]
-        cur = (cur + cluster.worker.id + 1) % servers.length
+        cur = (cur + 1) % servers.length
         console.log(url, cluster.worker.id)
         return url
     }
