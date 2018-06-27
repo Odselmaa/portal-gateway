@@ -1,13 +1,14 @@
 var h = require('./helper.js')
 const rp = require('request-promise')
 const urls = require('./urls.js')
-let auth_servers = [urls.AUTH_API_ROOT,
-      'https://portal-auth1.herokuapp.com',
-      'https://portal-auth2.herokuapp.com',
-      'https://portal-auth3.herokuapp.com',
-      'https://portal-auth4.herokuapp.com',
-      'https://portal-auth5.herokuapp.com',
-      'https://portal-auth6.herokuapp.com'
+let auth_servers = [urls.AUTH_API_ROOT
+    // ,
+    //   'https://portal-auth1.herokuapp.com',
+    //   'https://portal-auth2.herokuapp.com',
+    //   'https://portal-auth3.herokuapp.com',
+    //   'https://portal-auth4.herokuapp.com',
+    //   'https://portal-auth5.herokuapp.com',
+    //   'https://portal-auth6.herokuapp.com'
 
     ]
 let current = 0
