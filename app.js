@@ -46,16 +46,15 @@ if (cluster.isMaster) {
         "https://portal-user-app.herokuapp.com",
         "https://portal-user1.herokuapp.com",
         "https://portal-user2.herokuapp.com",
-        "https://portal-user3.herokuapp.com"
-        // ,
-        // "https://portal-user4.herokuapp.com",
-        // "https://portal-user5.herokuapp.com",
-        // "https://portal-user6.herokuapp.com",
-        // "https://portal-user7.herokuapp.com",
-        // "https://portal-user8.herokuapp.com",
-        // "https://portal-user-9.herokuapp.com",
-        // "https://portal-user10.herokuapp.com",
-        // "https://portal-user11.herokuapp.com"
+        "https://portal-user3.herokuapp.com",
+        "https://portal-user4.herokuapp.com",
+        "https://portal-user5.herokuapp.com",
+        "https://portal-user6.herokuapp.com",
+        "https://portal-user7.herokuapp.com",
+        "https://portal-user8.herokuapp.com",
+        "https://portal-user-9.herokuapp.com",
+        "https://portal-user10.herokuapp.com",
+        "https://portal-user11.herokuapp.com"
 
     ]
 
@@ -95,7 +94,7 @@ if (cluster.isMaster) {
     }
 
     app.post('/api/auth', httpProxy(getUserUrl))
-    app.get('/api/user', httpProxy(getUserUrl))
+    app.get('/api/user',[m.authMiddleware], httpProxy(getUserUrl))
     app.post('/api/user', httpProxy(getUserUrl))
     app.get('/api/user/:user_id', [m.authMiddleware], httpProxy(getUserUrl))
     app.put('/api/user/:user_id', [m.authMiddleware], httpProxy(getUserUrl))
