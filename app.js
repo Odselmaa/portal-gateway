@@ -90,7 +90,7 @@ if (cluster.isMaster) {
     function getUserUrl() {
         url = servers[cur]
         cur = (cur + 1) % servers.length
-        console.log(url)
+        console.log(url, cluster.worker.id)
         return url
     }
 
